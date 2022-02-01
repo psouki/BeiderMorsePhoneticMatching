@@ -12,8 +12,8 @@ namespace BeiderMorse.Encoder
     {
        private static IDictionary<NameType, Lang> _langs = new Dictionary<NameType, Lang>();
 
-        private Languages _languages { get; }
-        private List<LangRule> _rules { get; }
+       private readonly Languages _languages;
+        private readonly List<LangRule> _rules;
 
         static Lang()
         {
