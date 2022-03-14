@@ -108,6 +108,7 @@ namespace BeiderMorse.Test
       [InlineData("Souk Cordeiro", "Suq Cordeyro")]
       [InlineData("Gislaine", "Ghizlaine")]
       [InlineData("Véronique", "Veronik")]
+      [InlineData("Izabella Sanchez", "Isabela Sanches")]
       public void Encoder_Input_Exact_Match(string input, string inputToCompare)
       {
          PhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.EXACT, true);
