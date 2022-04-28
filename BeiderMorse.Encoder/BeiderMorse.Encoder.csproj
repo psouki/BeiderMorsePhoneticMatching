@@ -52,6 +52,8 @@
     <Compile Include="Enumerator\NameType.cs" />
     <Compile Include="Enumerator\RPatternType.cs" />
     <Compile Include="Enumerator\RuleType.cs" />
+    <Compile Include="GenericExactPhoneticEngine.cs" />
+    <Compile Include="IPhoneticEngine.cs" />
     <Compile Include="LangRule.cs" />
     <Compile Include="PhonemeBuilder.cs" />
     <Compile Include="RuleApplication.cs" />

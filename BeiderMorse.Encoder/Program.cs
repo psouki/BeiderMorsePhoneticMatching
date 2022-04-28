@@ -47,7 +47,7 @@ namespace BeiderMorse.Encoder
         {
             BeiderMorse.Encoder.PhoneticEngine encoder = new BeiderMorse.Encoder.PhoneticEngine(NameType.GENERIC, RuleType.APPROX, true);
 
-            string test = encoder.Encode(input, true);
+            string test = encoder.Encode(input);
             ICollection<string> List = new HashSet<string>(test.Split('|'));
 
             Console.WriteLine($"{input} -> {test}");

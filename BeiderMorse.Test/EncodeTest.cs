@@ -67,9 +67,9 @@ namespace BeiderMorse.Test
          string input = "Mélissa Paulin";
          string shouldBe = "milisa|milisi|miliso-pDln|paln|poln|puln";
 
-         PhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.APPROX, false);
+         IPhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.APPROX, false);
 
-         string returned = encoder.Encode(input, false);
+         string returned = encoder.Encode(input);
 
          bool result = returned.Equals(shouldBe);
 
@@ -82,9 +82,9 @@ namespace BeiderMorse.Test
          string input = "Mélissa Paulin";
          string shouldBe = "milisapDln|milisapaln|milisapoln|milisapuln|milisopDln|milisopaln|milisopoln|milisopuln";
 
-         PhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.APPROX, true);
+         IPhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.APPROX, true);
 
-         string returned = encoder.Encode(input, false);
+         string returned = encoder.Encode(input);
 
          bool result = returned.Equals(shouldBe);
 
@@ -95,9 +95,9 @@ namespace BeiderMorse.Test
       [InlineData("de la Hoya", "lahoj|lahoja|laoja|delahoj|delahoja|delaoja")]
       public void Encoder_Input_Prefix(string input, string encoded)
       {
-         PhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.EXACT, true);
+         IPhoneticEngine encoder = new GenericExactPhoneticEngine(true);
 
-         string returned = encoder.Encode(input, false);
+         string returned = encoder.Encode(input);
 
          returned.ShouldBe(encoded);
       }
@@ -111,12 +111,12 @@ namespace BeiderMorse.Test
       [InlineData("Izabella Sanchez", "Isabela Sanches")]
       public void Encoder_Input_Exact_Match(string input, string inputToCompare)
       {
-         PhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.EXACT, true);
+         IPhoneticEngine encoder = new GenericExactPhoneticEngine(true);
 
-         string returnedMarc = encoder.Encode(input, false);
+         string returnedMarc = encoder.Encode(input);
          ISet<string> marc = new HashSet<string>(returnedMarc.Split('|'));
 
-         string returnedMarque = encoder.Encode(inputToCompare, false);
+         string returnedMarque = encoder.Encode(inputToCompare);
          ISet<string> marque = new HashSet<string>(returnedMarque.Split('|'));
 
          bool result = marc.Any(s => marque.Contains(s));
@@ -131,12 +131,12 @@ namespace BeiderMorse.Test
       [InlineData("Gislane Benslimani", "Ghizlaine Benslimane")]
       public void Encoder_Input_Exact_Do_Not_Match(string input, string inputToCompare)
       {
-         PhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.EXACT, true);
+         IPhoneticEngine encoder = new GenericExactPhoneticEngine(true);
 
-         string returnedMarc = encoder.Encode(input, false);
+         string returnedMarc = encoder.Encode(input);
          ISet<string> marc = new HashSet<string>(returnedMarc.Split('|'));
 
-         string returnedMarque = encoder.Encode(inputToCompare, false);
+         string returnedMarque = encoder.Encode(inputToCompare);
          ISet<string> marque = new HashSet<string>(returnedMarque.Split('|'));
 
          bool result = marc.Any(s => marque.Contains(s));
@@ -150,12 +150,12 @@ namespace BeiderMorse.Test
       [InlineData("Dagenais", "Dagene")]
       public void Encoder_Input_Exact_Match_Approx(string input, string inputToCompare)
       {
-         PhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.APPROX, true);
+         IPhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.APPROX, true);
 
-         string returnedMarc = encoder.Encode(input, false);
+         string returnedMarc = encoder.Encode(input);
          ISet<string> marc = new HashSet<string>(returnedMarc.Split('|'));
 
-         string returnedMarque = encoder.Encode(inputToCompare, false);
+         string returnedMarque = encoder.Encode(inputToCompare);
          ISet<string> marque = new HashSet<string>(returnedMarque.Split('|'));
 
          bool result = marc.Any(s => marque.Contains(s));
@@ -172,9 +172,9 @@ namespace BeiderMorse.Test
 
          foreach (string input in encodeList)
          {
-            PhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.APPROX, true);
+            IPhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.APPROX, true);
 
-            string returned = encoder.Encode(input, true);
+            string returned = encoder.Encode(input);
             result = returned.Length <= max;
             if (!result)
             {

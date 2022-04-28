@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BeiderMorse.Encoder
 {
@@ -74,6 +76,65 @@ namespace BeiderMorse.Encoder
 
          string result = string.Join("|", list);
          return result;
+      }
+
+      public PhonemeBuilder ApplyFinalRules(IDictionary<string, List<Rule>> finalRules, int maxPhonemes)
+      {
+         if (finalRules == null)
+         {
+            throw new ArgumentNullException("Final rules can not be null");
+         }
+
+         if (!finalRules.Any())
+         {
+            return this;
+         }
+
+         IDictionary<Rule.Phoneme, Rule.Phoneme> phonemes = new SortedDictionary<Rule.Phoneme, Rule.Phoneme>(new Rule.PhonemeCompartor());
+         foreach (Rule.Phoneme phoneme in GetPhonemes())
+         {
+            PhonemeBuilder subBuilder = Empty(phoneme.GetLanguages());
+            string phonemeText = phoneme.GetPhonemeText().ToString();
+
+            for (int i = 0; i < phonemeText.Length;)
+            {
+               RuleApplication ruleApplication = new RuleApplication(finalRules, phonemeText, subBuilder, i, maxPhonemes).Invoke();
+               bool found = ruleApplication.IsFound();
+               subBuilder = ruleApplication.GetPhonemeBuilder();
+
+               if (!found)
+               {
+                  string asIs = phonemeText.Substring(i, 1);
+                  subBuilder.Append(asIs);
+               }
+
+               i = ruleApplication.GetI();
+            }
+
+            foreach (Rule.Phoneme newPhoneme in subBuilder.GetPhonemes())
+            {
+               if (phonemes.ContainsKey(newPhoneme))
+               {
+                  Rule.Phoneme oldPhoneme = phonemes[newPhoneme];
+                  phonemes.Remove(newPhoneme);
+
+                  Rule.Phoneme mergedPhoneme = oldPhoneme.MergeWithLanguage(newPhoneme.GetLanguages());
+                  phonemes.Add(mergedPhoneme, mergedPhoneme);
+               }
+               else
+               {
+                  phonemes.Add(newPhoneme, newPhoneme);
+               }
+            }
+         }
+
+         ISet<Rule.Phoneme> result = new SortedSet<Rule.Phoneme>(new Rule.PhonemeCompartor());
+         foreach (Rule.Phoneme item in phonemes.Values)
+         {
+            result.Add(item);
+         }
+
+         return new PhonemeBuilder(result);
       }
    }
 }

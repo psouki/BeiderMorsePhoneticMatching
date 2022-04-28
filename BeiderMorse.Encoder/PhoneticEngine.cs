@@ -7,7 +7,7 @@ using BeiderMorse.Encoder.Enumerator;
 
 namespace BeiderMorse.Encoder
 {
-   public class PhoneticEngine
+   public class PhoneticEngine : IPhoneticEngine
    {
       private static int _defaultMaxPhoneme = 20;
       private static int _maxCharacters;
@@ -29,51 +29,61 @@ namespace BeiderMorse.Encoder
          _namePrefixes = PopulateNamePrefixes();
       }
 
-      public string Encode(string input, bool bdEncode)
+      public string Encode(string input)
       {
-         _maxCharacters = bdEncode ? Convert.ToInt16(ConfigurationManager.AppSettings["CharactersLimit"]) : 1000000;
+         _maxCharacters = SetMaxCharacters();
 
          input = input.ToLower().Replace('-', ' ').Trim();
 
          if (_nameType == NameType.GENERIC)
          {
             if (input.Length >= 2 && input.Substring(0, 2).Equals("d'"))
-            { // check for d'
-               string remainder = input.Substring(2);
-               string combined = "d" + remainder;
-               return $"({Encode(remainder)})-({Encode(combined)})";
-            }
+               return CheckForDApostrophe(input);
+            
             foreach (string l in _namePrefixes[_nameType])
             {
-               // handle generic prefixes
-               if (input.StartsWith(l + " ", StringComparison.Ordinal))
-               {
-                  // check for any prefix in the words list
-                  string remainder = input.Substring(l.Length + 1); // input without the prefix
-                  string combined = l + remainder; // input with prefix without space
-                  return Encode(remainder) + "|" + Encode(combined);
-               }
+               if (IsGenericPrefix(input, l))
+                  return CheckForPrefixInTheWordList(input, l);
             }
          }
 
-         string result = Encode(input);
+         string result = TranslateNameIntoPhonemes(input);
 
          result = AnalyzeNameLength(result);
-         if (bdEncode)
-         {
-            result = $"|{result}|";
-         }
          return result;
       }
 
-      public string Encode(string input)
+      private static int SetMaxCharacters()
       {
-         Languages.LanguageSet languageSet = _lang.GuessLanguages(input);
-         return Encode(input, languageSet);
+         return Int16.TryParse(ConfigurationManager.AppSettings["CharactersLimit"], out short maxNumber) 
+            ? maxNumber : 
+            1000000;
       }
 
-      private string Encode(string input, Languages.LanguageSet languageSet)
+      private string CheckForDApostrophe(string input)
       {
+         string remainder = input.Substring(2);
+         string combined = "d" + remainder;
+         return $"({TranslateNameIntoPhonemes(remainder)})-({TranslateNameIntoPhonemes(combined)})";
+      }
+
+      private static bool IsGenericPrefix(string input, string l)
+      {
+         return input.StartsWith(l + " ", StringComparison.Ordinal);
+      }
+
+      private string CheckForPrefixInTheWordList(string input, string l)
+      {
+         string remainder = input.Substring(l.Length + 1); // input without the prefix
+         string combined = l + remainder; // input with prefix without space
+         return TranslateNameIntoPhonemes(remainder) + "|" + TranslateNameIntoPhonemes(combined);
+      }
+
+
+      private string TranslateNameIntoPhonemes(string input)
+      {
+         Languages.LanguageSet languageSet = _lang.GuessLanguages(input);
+
          IDictionary<string, List<Rule>> rules = Rule.GetInstanceMap(_nameType, RuleType.RULES, languageSet);
          IDictionary<string, List<Rule>> finalRules1 = Rule.GetInstanceMap(_nameType, _ruleType, "common");
          IDictionary<string, List<Rule>> finalRules2 = Rule.GetInstanceMap(_nameType, _ruleType, languageSet);
@@ -121,7 +131,7 @@ namespace BeiderMorse.Encoder
 
             foreach (string word in words2)
             {
-               string nomAppend = Encode(word);
+               string nomAppend = TranslateNameIntoPhonemes(word);
                result = AnalyzeNameLength(result, nomAppend);
             }
 

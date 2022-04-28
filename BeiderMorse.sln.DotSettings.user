@@ -1,5 +1,10 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=857f8c2b_002D9cc0_002D474b_002Db5a2_002D63a6b51322c4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="EncodeTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=670cd187_002D84b2_002D4178_002D9cb2_002Dc8314a6ebcbe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Encoder_Input_Concat_False" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=857f8c2b_002D9cc0_002D474b_002Db5a2_002D63a6b51322c4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EncodeTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;

@@ -10,16 +10,17 @@ namespace BeiderMorse.Encoder
 {
     public class Lang
     {
-       private static IDictionary<NameType, Lang> _langs = new Dictionary<NameType, Lang>();
+        private static IDictionary<NameType, Lang> _langs = new Dictionary<NameType, Lang>();
 
-       private readonly Languages _languages;
+        private readonly Languages _languages;
         private readonly List<LangRule> _rules;
 
         static Lang()
         {
             foreach (NameType nameType in (NameType[])Enum.GetValues(typeof(NameType)))
             {
-                _langs.Add(nameType, LoadResource($"{UtilString.GetFilePrefix(nameType)}_lang", Languages.GetInstance(nameType)));
+                _langs.Add(nameType,
+                    LoadResource($"{UtilString.GetFilePrefix(nameType)}_lang", Languages.GetInstance(nameType)));
             }
         }
 
@@ -42,8 +43,10 @@ namespace BeiderMorse.Encoder
                     }
                 }
             }
+
             Languages.LanguageSet ls = Languages.LanguageSet.From(langs);
-            Languages.LanguageSet result = ls.GetType() == typeof(Languages.NoLanguage) ? new Languages.AnyLanguage() : ls;
+            Languages.LanguageSet result =
+                ls.GetType() == typeof(Languages.NoLanguage) ? new Languages.AnyLanguage() : ls;
 
             return result;
         }
@@ -63,7 +66,8 @@ namespace BeiderMorse.Encoder
         {
             string langueLines = BmLangue.ResourceManager.GetString(fullLanguageRulePath);
             IEnumerable<string> lines = ResourceUtil.ReadAllResourceLines(langueLines);
-            ICollection<string> LinesWithoutCom = lines.Where(x => !x.StartsWith("/*") && !x.StartsWith(" *") && !x.StartsWith("//")).ToList();
+            ICollection<string> LinesWithoutCom =
+                lines.Where(x => !x.StartsWith("/*") && !x.StartsWith(" *") && !x.StartsWith("//")).ToList();
 
             List<LangRule> rules = new List<LangRule>();
 
@@ -105,6 +109,33 @@ namespace BeiderMorse.Encoder
         public Languages GetListLanguages()
         {
             return _languages;
+        }
+
+        public string ApplyFinalRules(string input, NameType nameType, RuleType ruleType, int maxPhonemes)
+        {
+            Languages.LanguageSet languageSet = GuessLanguages(input);
+
+            IDictionary<string, List<Rule>> rules = Rule.GetInstanceMap(nameType, RuleType.RULES, languageSet);
+            IDictionary<string, List<Rule>> finalRules1 = Rule.GetInstanceMap(nameType, ruleType, "common");
+            IDictionary<string, List<Rule>> finalRules2 = Rule.GetInstanceMap(nameType, ruleType, languageSet);
+
+            PhonemeBuilder phonemeBuilder = PhonemeBuilder.Empty(languageSet);
+
+            for (int i = 0; i < input.Length;)
+            {
+                RuleApplication ruleApplication =
+                    new RuleApplication(rules, input, phonemeBuilder, i, maxPhonemes).Invoke();
+                i = ruleApplication.GetI();
+                phonemeBuilder = ruleApplication.GetPhonemeBuilder();
+            }
+
+            phonemeBuilder = phonemeBuilder.ApplyFinalRules(finalRules1, maxPhonemes);
+
+            phonemeBuilder = phonemeBuilder.ApplyFinalRules(finalRules2, maxPhonemes);
+
+            string resultEncode = phonemeBuilder.MakeString();
+
+            return resultEncode;
         }
     }
 }
