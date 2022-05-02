@@ -23,8 +23,8 @@ namespace BeiderMorse.Encoder
          //EncoderNom("Jean Marc");
          //EncoderNom("Jean Marque");
          //EncoderNom("Jean May");
-          EncoderNom("Dagenais");
-          EncoderNom("Dagene");
+         //EncoderNom("Dagenais");
+         //EncoderNom("Dagene");
          //EncoderNom("Mélissa Paulin");
          //EncoderNom("Mélissa Paulin-Lamarche");
          //EncoderNom("Souki");
@@ -37,7 +37,11 @@ namespace BeiderMorse.Encoder
          //EncoderNom("Areas Gomes Almeida Soares Pereira Bragança");
          //EncoderNom("DESTROISMAISONS-PICARD");
          //EncoderNom("DESTROISMAISONS-PICARD Soares Pereira Bragança");
-         //EncoderNom("JEANNE-D'ARC");
+        // EncoderNom("JEANNE D'ARC");
+       // EncoderNom("Jérôme d'Ambrosio");
+       // EncoderNom("Ileana D'Cruz");
+       EncoderNom("Del Piero");
+     //  EncoderNom("Alessandro Del Piero");
          //EncoderNom("D'ARC");
          //EncoderNom("DES GROSEILLIERS");
          Console.ReadKey();
@@ -45,7 +49,7 @@ namespace BeiderMorse.Encoder
 
         private static void EncoderNom(string input)
         {
-            BeiderMorse.Encoder.PhoneticEngine encoder = new BeiderMorse.Encoder.PhoneticEngine(NameType.GENERIC, RuleType.APPROX, true);
+            PhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.EXACT, false);
 
             string test = encoder.Encode(input);
             ICollection<string> List = new HashSet<string>(test.Split('|'));

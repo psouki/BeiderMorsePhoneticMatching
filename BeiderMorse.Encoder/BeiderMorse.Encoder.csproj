@@ -55,6 +55,7 @@
     <Compile Include="GenericExactPhoneticEngine.cs" />
     <Compile Include="IPhoneticEngine.cs" />
     <Compile Include="LangRule.cs" />
+    <Compile Include="NamePart.cs" />
     <Compile Include="PhonemeBuilder.cs" />
     <Compile Include="RuleApplication.cs" />
     <Compile Include="Util\ResourceUtil.cs" />

@@ -62,7 +62,19 @@ namespace BeiderMorse.Test
       }
 
       [Fact]
-      public void Encoder_Input_Concat_False()
+      public void Encoder_Input_Exact_Creator_Exemple()
+      {
+         string input = "Washington";
+         IPhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.EXACT, false);
+
+         string returnedMarc = encoder.Encode(input);
+         ISet<string> marc = new HashSet<string>(returnedMarc.Split('|'));
+
+        marc.Count.ShouldBe(4);
+      }
+      
+      [Fact]
+      public void Encoder_Input_Concat_False_Approx()
       {
          string input = "Mélissa Paulin";
          string shouldBe = "milisa|milisi|miliso-pDln|paln|poln|puln";
@@ -76,6 +88,65 @@ namespace BeiderMorse.Test
          result.ShouldBeTrue();
       }
 
+      [Fact]
+      public void Encoder_Input_Concat_False_Exact()
+      {
+         string input = "Mélissa Paulin";
+         string shouldBe = "melisa|melisi-paulin|polin";
+         IPhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.EXACT, false);
+
+         string returned = encoder.Encode(input);
+
+         bool result = returned.Equals(shouldBe);
+
+         result.ShouldBeTrue();
+      }
+
+      [Theory]
+      [InlineData("JEANNE D'ARC", "Zeanedark|Zjanedark|janedark|jeanedark|jeanedarts")]
+      [InlineData("Jérôme d'Ambrosio", "Zeromedambroso|Zeromedanbroso|jeromedambroSo|jeromedambroso|jeromedanbroSo|jeromedanbroso|xeromedambroso|xeromedanbroso")]
+      [InlineData("Ileana D'Cruz", "ileanatkruS|ileanatkrus|ileanatkruts|ileanatsrus|iljanatkrus")]
+      public void Encoder_D_Apostrophe_Name_Exact_Concat(string name, string expectedPhoneticCode)
+      {
+         IPhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.EXACT, true);
+         
+         string returned = encoder.Encode(name);
+
+         bool result = returned.Equals(expectedPhoneticCode);
+
+         result.ShouldBeTrue();
+
+      }
+      
+      [Theory]
+      [InlineData("JEANNE D'ARC", "Zeane|Zjane|dZeane|jane|jeane|xeane-dardS|dark|darts")]
+      [InlineData("Jérôme d'Ambrosio", "Zerome|jerome|xerome-dambroSo|dambroso|danbroSo|danbroso")]
+      [InlineData("Ileana D'Cruz", "ileana|ileani|iljana-dZrus|tkruS|tkrus|tkruts|tsrus")]
+      public void Encoder_D_Apostrophe_Name_Exact_Separate_Names(string name, string expectedPhoneticCode)
+      {
+         IPhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.EXACT, false);
+         
+         string returned = encoder.Encode(name);
+
+         bool result = returned.Equals(expectedPhoneticCode);
+
+         result.ShouldBeTrue();
+
+      }
+      [Fact]
+      public void Encoder_Input_Concat_False_Exact_Cleaned()
+      {
+         string input = "Mélissa Paulin";
+         string shouldBe = "melisa|melisi-paulin|polin";
+         IPhoneticEngine encoder = new GenericExactPhoneticEngine(false);
+      
+         string returned = encoder.Encode(input);
+      
+         bool result = returned.Equals(shouldBe);
+      
+         result.ShouldBeTrue();
+      }
+      
       [Fact]
       public void Encoder_Input_Concat_True()
       {
@@ -102,6 +173,24 @@ namespace BeiderMorse.Test
          returned.ShouldBe(encoded);
       }
 
+      [Theory]
+      [InlineData("Washington", "Vasington")]
+      [InlineData("Washington", "Washincton")]
+      public void Encoder_Input_Exact_Match_Single_Name(string input, string inputToCompare)
+      {
+         IPhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.APPROX, true);
+
+         string returnedMarc = encoder.Encode(input);
+         ISet<string> marc = new HashSet<string>(returnedMarc.Split('|'));
+
+         string returnedMarque = encoder.Encode(inputToCompare);
+         ISet<string> marque = new HashSet<string>(returnedMarque.Split('|'));
+
+         bool result = marc.Any(s => marque.Contains(s));
+
+         result.ShouldBeTrue();
+      }
+      
       [Theory]
       [InlineData("Jean Marc", "Jean Marque")]
       [InlineData("Martha Gomes", "Marta Gomez")]
