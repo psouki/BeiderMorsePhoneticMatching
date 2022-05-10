@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BeiderMorse.Encoder;
+﻿using BeiderMorse.Encoder;
 using BeiderMorse.Encoder.Enumerator;
 using Shouldly;
 using Xunit;

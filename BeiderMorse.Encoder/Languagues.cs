@@ -237,5 +237,31 @@ namespace BeiderMorse.Encoder
 
         }
         #endregion
+
+        public LanguageSet GuessLanguages(string input, Lang lang)
+        {
+            string text = input.ToLower();
+            ISet<string> langs = new HashSet<string>(GetLanguages());
+
+            foreach (LangRule rule in lang.Rules)
+            {
+                if (rule.Matches(text))
+                {
+                    if (rule.AcceptOnMatch)
+                    {
+                        langs.IntersectWith(rule.Languages);
+                    }
+                    else
+                    {
+                        langs.ExceptWith(rule.Languages);
+                    }
+                }
+            }
+
+            LanguageSet ls = LanguageSet.From(langs);
+            LanguageSet result = ls.GetType() == typeof(NoLanguage) ? new AnyLanguage() : ls;
+
+            return result;
+        }
     }
 }

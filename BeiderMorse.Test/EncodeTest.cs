@@ -17,7 +17,7 @@ namespace BeiderMorse.Test
          NameType nameType = NameType.GENERIC;
          Lang lang = Lang.Instance(nameType);
 
-         Languages.LanguageSet languageSet = lang.GuessLanguages(string.Empty);
+         Languages.LanguageSet languageSet = lang.Languages.GuessLanguages(string.Empty, lang);
 
          bool result = false;
 
@@ -38,7 +38,7 @@ namespace BeiderMorse.Test
 
          string input = "Mélissa Paulin";
 
-         Languages.LanguageSet languageSet = lang.GuessLanguages(input);
+         Languages.LanguageSet languageSet = lang.Languages.GuessLanguages(input, lang);
          ISet<string> shouldBe = new HashSet<string>() { "czech", "french", "greeklatin", "hungarian" };
 
          bool result = false;

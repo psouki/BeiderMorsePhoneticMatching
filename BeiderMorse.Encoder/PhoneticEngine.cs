@@ -83,7 +83,7 @@ namespace BeiderMorse.Encoder
 
       private string TranslateNameIntoPhonemes(string input)
       {
-         Languages.LanguageSet languageSet = _lang.GuessLanguages(input);
+         Languages.LanguageSet languageSet = _lang.Languages.GuessLanguages(input, _lang);
 
          IDictionary<string, List<Rule>> rules = Rule.GetInstanceMap(_nameType, RuleType.RULES, languageSet);
          IDictionary<string, List<Rule>> finalRules1 = Rule.GetInstanceMap(_nameType, _ruleType, "common");
