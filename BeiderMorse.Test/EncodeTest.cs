@@ -138,7 +138,7 @@ namespace BeiderMorse.Test
       {
          string input = "Mélissa Paulin";
          string shouldBe = "melisa|melisi-paulin|polin";
-         IPhoneticEngine encoder = new GenericExactPhoneticEngine(false);
+         IPhoneticEngine encoder = new GenericExactSeparateEngine();
       
          string returned = encoder.Encode(input);
       
@@ -166,7 +166,7 @@ namespace BeiderMorse.Test
       [InlineData("de la Hoya", "lahoj|lahoja|laoja|delahoj|delahoja|delaoja")]
       public void Encoder_Input_Prefix(string input, string encoded)
       {
-         IPhoneticEngine encoder = new GenericExactPhoneticEngine(true);
+         IPhoneticEngine encoder = new GenericExactSeparateEngine();
 
          string returned = encoder.Encode(input);
 
@@ -200,7 +200,7 @@ namespace BeiderMorse.Test
       [InlineData("Izabella Sanchez", "Isabela Sanches")]
       public void Encoder_Input_Exact_Match(string input, string inputToCompare)
       {
-         IPhoneticEngine encoder = new GenericExactPhoneticEngine(true);
+         IPhoneticEngine encoder = new GenericExactSeparateEngine();
 
          string returnedMarc = encoder.Encode(input);
          ISet<string> marc = new HashSet<string>(returnedMarc.Split('|'));
@@ -220,7 +220,7 @@ namespace BeiderMorse.Test
       [InlineData("Gislane Benslimani", "Ghizlaine Benslimane")]
       public void Encoder_Input_Exact_Do_Not_Match(string input, string inputToCompare)
       {
-         IPhoneticEngine encoder = new GenericExactPhoneticEngine(true);
+         IPhoneticEngine encoder = new GenericExactSeparateEngine();
 
          string returnedMarc = encoder.Encode(input);
          ISet<string> marc = new HashSet<string>(returnedMarc.Split('|'));

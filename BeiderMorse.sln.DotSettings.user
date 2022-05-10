@@ -1,13 +1,39 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Pedro Souki\AppData\Local\JetBrains\Rider2021.3\resharper-host\temp\Rider\vAny\CoverageData\_BeiderMorse.-1754663571\Snapshot\snapshot.utdcvr</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=670cd187_002D84b2_002D4178_002D9cb2_002Dc8314a6ebcbe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Encoder_Input_Concat_False" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=670cd187_002D84b2_002D4178_002D9cb2_002Dc8314a6ebcbe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Encoder_Input_Concat_False" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGeneircExact&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAprox&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6fca9d13_002D72c3_002D4ba3_002D8510_002D579f87645b8c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Encoder_Input_Do_Not_Match #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAprox.Encoder_Input_Do_Not_Match&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=857f8c2b_002D9cc0_002D474b_002Db5a2_002D63a6b51322c4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EncodeTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAprox&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d9f6c693_002D6ab5_002D4c46_002D8d03_002D9061891d3870/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Encoder_Input_Do_Not_Match" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAprox.Encoder_Input_Do_Not_Match&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAprox.Encoder_Input_Match_Separate&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericExactFullName&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericExact&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAproxFullName.Encoder_Input_From_Creator_Exemple&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAproxFullName.Encoder_Input_Concat_False&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAproxFullName.Encoder_D_Apostrophe_Concat_Name&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAproxFullName.Encoder_Input_Prefix_Multi_Word&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAproxFullName.Encoder_Input_Match_Single_Name&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAproxFullName.Encoder_Input_Match&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAproxFullName.Encoder_Input_Do_Not_Match&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAproxFullName.Encoder_Input2&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAprox.Encoder_Input_Concat_False&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAprox.Encoder_D_Apostrophe_Name_Exact_Separate_Names&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A17B47BB-482B-4C3C-BEE9-1FF92A26AA28::.NETFramework,Version=v4.8::BeiderMorse.Test.EncodeTestGenericAprox&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

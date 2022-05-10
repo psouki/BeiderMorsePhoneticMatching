@@ -6,19 +6,17 @@ using BeiderMorse.Encoder.Enumerator;
 
 namespace BeiderMorse.Encoder
 {
-    public class GenericExactPhoneticEngine : IPhoneticEngine
+    public class GenericAproxSeparateNameEngine : IPhoneticEngine
     {
         private static int _defaultMaxPhoneme = 20;
         private static int _maxCharacters;
         private readonly ISet<string> _namePrefixes;
 
         public int MaxPhonemes { get; }
-        private bool EncodeAllTogether { get; }
         private Lang Lang { get; }
 
-        public GenericExactPhoneticEngine(bool concat)
+        public GenericAproxSeparateNameEngine()
         {
-            EncodeAllTogether = concat;
             MaxPhonemes = _defaultMaxPhoneme;
             Lang = Lang.Instance(NameType.GENERIC);
             _namePrefixes = PopulateNamePrefixes();
@@ -29,11 +27,9 @@ namespace BeiderMorse.Encoder
             _maxCharacters = SetMaxCharacters();
             name = CleanName(name);
 
-            string phoneticName = EncodeAllTogether
-                ? TranslateNameIntoPhonemes(name)
-                : EncodeEachNameInAMultiWordNameSeparately(name);
+            string phoneticName = EncodeEachNameInAMultiWordNameSeparately(name);
 
-            return FormatNameForSpecificLength(phoneticName);
+            return FormatNameLength(phoneticName);
         }
 
         private static int SetMaxCharacters()
@@ -48,28 +44,6 @@ namespace BeiderMorse.Encoder
             return name.ToLower().Replace('-', ' ').Trim();
         }
 
-        private string TranslateNameIntoPhonemes(string name)
-        {
-            string phoneticName = IsThereDApostrophe(name)
-                ? TranslateNameWithDApostrophe(name)
-                : string.Empty;
-
-            phoneticName = string.IsNullOrEmpty(phoneticName)
-                ? CheckForPrefixInTheWordList(name)
-                : phoneticName;
-
-            phoneticName = string.IsNullOrEmpty(phoneticName)
-                ? Lang.ApplyFinalRules(name, NameType.GENERIC, RuleType.EXACT, MaxPhonemes)
-                : phoneticName;
-
-            return phoneticName;
-        }
-
-        private static bool IsThereDApostrophe(string name)
-        {
-            return name.Length >= 2 && name.IndexOf("d'", StringComparison.Ordinal) != -1;
-        }
-
         private string EncodeEachNameInAMultiWordNameSeparately(string name)
         {
             name = name.Replace("de la ", "dela ");
@@ -81,7 +55,7 @@ namespace BeiderMorse.Encoder
                 NamePart translateNamePart = TranslateNameToAppend(names, index);
                 
                 index = translateNamePart.Index;
-                encodedName = AnalyzeNameLength(encodedName, translateNamePart.Part);
+                encodedName = FormatNameLengthBeforeAppend(encodedName, translateNamePart.Part);
             }
 
             return RemoveLeadingCharacter(encodedName);
@@ -96,39 +70,60 @@ namespace BeiderMorse.Encoder
                 : new NamePart(index, TranslateNameIntoPhonemes(wordName));
         }
 
-        private string FindPrefix(string name)
+        private string TranslateNameIntoPhonemes(string name)
         {
-            return _namePrefixes.FirstOrDefault(prefix => name.Contains($"{prefix} "));
-            ;
+            string phoneticName = IsThereDApostrophe(name)
+                ? TranslateNameWithDApostrophe(name)
+                : string.Empty;
+
+            phoneticName = string.IsNullOrEmpty(phoneticName)
+                ? CheckForPrefixInTheWordList(name)
+                : phoneticName;
+
+            phoneticName = string.IsNullOrEmpty(phoneticName)
+                ? Lang.ApplyFinalRules(name, NameType.GENERIC, RuleType.APPROX, MaxPhonemes)
+                : phoneticName;
+
+            return phoneticName;
+        }
+
+        private static bool IsThereDApostrophe(string name)
+        {
+            return name.Length >= 2 && name.IndexOf("d'", StringComparison.Ordinal) != -1;
         }
 
         private string TranslateNameWithDApostrophe(string name)
         {
             string remainder = name.Replace("d'", "");
-            string remainderPhoneticCode = Lang.ApplyFinalRules(remainder, NameType.GENERIC, RuleType.EXACT, MaxPhonemes);
+            string remainderPhoneticCode = Lang.ApplyFinalRules(remainder, NameType.GENERIC, RuleType.APPROX, MaxPhonemes);
 
             string combined = name.Replace("d'", "d");
-            string combinedPhoneticCode = Lang.ApplyFinalRules(combined, NameType.GENERIC, RuleType.EXACT, MaxPhonemes);
+            string combinedPhoneticCode = Lang.ApplyFinalRules(combined, NameType.GENERIC, RuleType.APPROX, MaxPhonemes);
 
             return $"{remainderPhoneticCode}|{combinedPhoneticCode}";
         }
 
         private string CheckForPrefixInTheWordList(string name)
         {
-            string commonNamePrefix = FindPrefix(name);
+            string commonNamePrefix = FindPrefixInFullName(name);
             if (!string.IsNullOrEmpty(commonNamePrefix))
                 return TranslateNameWithPrefixes(name, commonNamePrefix);
 
             return string.Empty;
         }
 
+        private string FindPrefixInFullName(string name)
+        {
+            return _namePrefixes.FirstOrDefault(prefix => name.Contains($"{prefix} "));
+        }
+
         private string TranslateNameWithPrefixes(string name, string commonPrefix)
         {
             string remainder = name.Replace($"{commonPrefix} ", ""); // input without the prefix
-            string remainderPhoneticCode = Lang.ApplyFinalRules(remainder, NameType.GENERIC, RuleType.EXACT, MaxPhonemes);
+            string remainderPhoneticCode = Lang.ApplyFinalRules(remainder, NameType.GENERIC, RuleType.APPROX, MaxPhonemes);
 
             string combined = name.Replace($"{commonPrefix} ", commonPrefix); // input with prefix without space
-            string combinedPhoneticCode = Lang.ApplyFinalRules(combined, NameType.GENERIC, RuleType.EXACT, MaxPhonemes);
+            string combinedPhoneticCode = Lang.ApplyFinalRules(combined, NameType.GENERIC, RuleType.APPROX, MaxPhonemes);
 
             return $"{remainderPhoneticCode}|{combinedPhoneticCode}";
         }
@@ -140,7 +135,7 @@ namespace BeiderMorse.Encoder
                 : result;
         }
 
-        private string FormatNameForSpecificLength(string result)
+        private string FormatNameLength(string result)
         {
             while (result.Length > _maxCharacters - 2)
             {
@@ -150,27 +145,9 @@ namespace BeiderMorse.Encoder
             return result;
         }
 
-        private string AnalyzeNameLength(string encodedName, string nameToAppend)
+        private string FormatNameLengthBeforeAppend(string encodedName, string nameToAppend)
         {
-            int length = encodedName.Length + nameToAppend.Length;
-
-            while (length > _maxCharacters - 2)
-            {
-                if (encodedName.Length > nameToAppend.Length)
-                {
-                    encodedName.Substring(encodedName.IndexOf("|", StringComparison.Ordinal) + 1);
-                }
-                else
-                {
-                    nameToAppend = nameToAppend.Substring(0, nameToAppend.LastIndexOf("|", StringComparison.Ordinal));
-                }
-
-                length = encodedName.Length + nameToAppend.Length;
-            }
-
-            encodedName = $"{encodedName}-{nameToAppend}";
-
-            return encodedName;
+            return $"{encodedName}-{nameToAppend}";
         }
 
 

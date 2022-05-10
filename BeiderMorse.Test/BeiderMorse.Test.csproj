@@ -91,7 +91,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EncodeTest.cs" />
+    <Compile Include="EncodeTestGenericAprox.cs" />
+    <Compile Include="EncodeTestGenericAproxFullname.cs" />
     <Compile Include="EncodeTestGenericExact.cs" />
+    <Compile Include="EncodeTestGenericExactFullName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

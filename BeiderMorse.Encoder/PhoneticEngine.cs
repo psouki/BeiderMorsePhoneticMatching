@@ -72,6 +72,7 @@ namespace BeiderMorse.Encoder
          return input.StartsWith(l + " ", StringComparison.Ordinal);
       }
 
+      
       private string CheckForPrefixInTheWordList(string input, string l)
       {
          string remainder = input.Substring(l.Length + 1); // input without the prefix

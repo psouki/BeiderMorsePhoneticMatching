@@ -52,7 +52,10 @@
     <Compile Include="Enumerator\NameType.cs" />
     <Compile Include="Enumerator\RPatternType.cs" />
     <Compile Include="Enumerator\RuleType.cs" />
-    <Compile Include="GenericExactPhoneticEngine.cs" />
+    <Compile Include="GenericAproxFullNameEngine.cs" />
+    <Compile Include="GenericAproxSeparateNameEngine.cs" />
+    <Compile Include="GenericExactFullNameEngine.cs" />
+    <Compile Include="GenericExactSeparateNameEngine.cs" />
     <Compile Include="IPhoneticEngine.cs" />
     <Compile Include="LangRule.cs" />
     <Compile Include="NamePart.cs" />
