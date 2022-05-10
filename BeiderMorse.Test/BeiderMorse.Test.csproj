@@ -95,6 +95,7 @@
     <Compile Include="EncodeTestGenericAproxFullname.cs" />
     <Compile Include="EncodeTestGenericExact.cs" />
     <Compile Include="EncodeTestGenericExactFullName.cs" />
+    <Compile Include="LangTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

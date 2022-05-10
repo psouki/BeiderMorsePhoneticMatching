@@ -163,7 +163,7 @@ namespace BeiderMorse.Test
       }
 
       [Theory]
-      [InlineData("de la Hoya", "lahoj|lahoja|laoja|delahoj|delahoja|delaoja")]
+      [InlineData("de la Hoya", "hoj|hoja|oj|oja|xoja|delaoja")]
       public void Encoder_Input_Prefix(string input, string encoded)
       {
          IPhoneticEngine encoder = new GenericExactSeparateEngine();
@@ -197,6 +197,7 @@ namespace BeiderMorse.Test
       [InlineData("Souk Cordeiro", "Suq Cordeyro")]
       [InlineData("Gislaine", "Ghizlaine")]
       [InlineData("Véronique", "Veronik")]
+      [InlineData("Jean Marc", "Jean May")]
       [InlineData("Izabella Sanchez", "Isabela Sanches")]
       public void Encoder_Input_Exact_Match(string input, string inputToCompare)
       {
@@ -214,7 +215,6 @@ namespace BeiderMorse.Test
       }
 
       [Theory]
-      [InlineData("Jean Marc", "Jean May")]
       [InlineData("Cordeiro", "Cordero")]
       [InlineData("Souki", "Suq")]
       [InlineData("Gislane Benslimani", "Ghizlaine Benslimane")]
@@ -237,7 +237,7 @@ namespace BeiderMorse.Test
       [InlineData("Cordeiro", "Cordero")]
       [InlineData("Gislane", "Ghizlaine")]
       [InlineData("Dagenais", "Dagene")]
-      public void Encoder_Input_Exact_Match_Approx(string input, string inputToCompare)
+      public void Encoder_Input_Match_Approx(string input, string inputToCompare)
       {
          IPhoneticEngine encoder = new PhoneticEngine(NameType.GENERIC, RuleType.APPROX, true);
 
